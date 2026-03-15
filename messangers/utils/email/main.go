@@ -1,4 +1,4 @@
-package main
+package email
 
 import (
 	"bytes"
@@ -148,7 +148,7 @@ func sendEmail(srv *gmail.Service, to, subject, body, attachmentPath string) err
 	return nil
 }
 
-func main() {
+func SendEmail() {
 	ctx := context.Background()
 	b, err := os.ReadFile("ims-creds.json")
 	if err != nil {
