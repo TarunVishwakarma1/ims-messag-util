@@ -1,0 +1,11 @@
+{{define "content"}}
+  <h2>Hi there,</h2>
+  <p>We received a request to access your account. Please use the following One-Time Password (OTP) to complete your authentication. This code is securely generated and valid for 10 minutes from exactly now.</p>
+  
+  <div class="otp-box">
+    <p class="otp-text">{{.Data.OTP}}</p>
+  </div>
+  
+  <p>If you didn't proactively request this code, you can safely ignore this email. Someone else might have entered your email address by mistake. Please never share this with anyone.</p>
+  <p>Thanks,<br>The IMS Security Team</p>
+{{end}}

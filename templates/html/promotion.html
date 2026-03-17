@@ -1,0 +1,16 @@
+{{define "content"}}
+  <div style="text-align: center; margin-bottom: 24px;">
+    <img src="{{.Data.ImageURL}}" alt="Promotion" style="max-width: 100%; border-radius: 8px; height: auto;">
+  </div>
+  
+  <h2 style="text-align: center; color: #4F46E5;">{{.Data.Headline}}</h2>
+  <p style="text-align: center;">{{.Data.Description}}</p>
+  
+  <div style="text-align: center; margin-top: 32px; margin-bottom: 32px;">
+    <a href="{{.Data.CallToActionURL}}" class="btn" style="padding: 14px 32px; font-size: 16px;">{{.Data.CallToActionText}}</a>
+  </div>
+  
+  {{if .Data.ExpiryDate}}
+  <p style="font-size: 13px; color: #6B7280; text-align: center;">Offer valid until {{.Data.ExpiryDate}}.</p>
+  {{end}}
+{{end}}
