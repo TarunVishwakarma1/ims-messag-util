@@ -168,7 +168,7 @@ func main() {
 	}
 
 	// ── Send an email with a body and an attachment ───────────────────────────
-	to := "kajuvishwakarma658@gmail.com"
+	to := "tarunvishwakarma81@gmail.com"
 	subject := "Hello from IMS!"
 	body := "Hi,\n\nThis is a test email sent via the Gmail API.\n\nRegards,\nIMS"
 	attachmentPath := ""
