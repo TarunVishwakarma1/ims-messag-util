@@ -36,7 +36,6 @@ func email1(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Erorr in getting data from req: ", err)
 	}
-	//email.SendEmail(body)
 	fmt.Println(string(body))
 	value := r.PathValue("notificationType")
 	//email.SendEmail(body)
