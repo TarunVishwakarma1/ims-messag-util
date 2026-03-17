@@ -19,6 +19,11 @@ import (
 	"google.golang.org/api/option"
 )
 
+type OTPMail struct {
+	To  string
+	OTP string
+}
+
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
@@ -148,7 +153,7 @@ func sendEmail(srv *gmail.Service, to, subject, body, attachmentPath string) err
 	return nil
 }
 
-func SendEmail() {
+func SendEmail(body []byte) {
 	ctx := context.Background()
 	b, err := os.ReadFile("ims-creds.json")
 	if err != nil {
@@ -166,14 +171,16 @@ func SendEmail() {
 	if err != nil {
 		log.Fatalf("Unable to retrieve Gmail client: %v", err)
 	}
+	var mailData OTPMail
+	json.Unmarshal(body, &mailData)
 
 	// ── Send an email with a body and an attachment ───────────────────────────
-	to := "tarunvishwakarma81@gmail.com"
+	to := mailData.To
 	subject := "Hello from IMS!"
-	body := "Hi,\n\nThis is a test email sent via the Gmail API.\n\nRegards,\nIMS"
+	emailBody := fmt.Sprintf("Hi,\n\nThis is a test email sent via the Gmail API.\n\nYour OTP is %v\n\nRegards,\nIMS", mailData.OTP)
 	attachmentPath := ""
 
-	if err := sendEmail(srv, to, subject, body, attachmentPath); err != nil {
+	if err := sendEmail(srv, to, subject, emailBody, attachmentPath); err != nil {
 		log.Fatalf("Unable to send email: %v", err)
 	}
 	fmt.Println("Email sent successfully!")
