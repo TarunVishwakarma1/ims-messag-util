@@ -9,15 +9,17 @@
 </head>
 <body>
   <div class="wrapper">
+    <!-- Card Container -->
     <div class="main-container">
       {{template "header" .}}
       
       <div class="content">
         {{template "content" .}}
       </div>
-      
-      {{template "footer" .}}
     </div>
+    
+    <!-- Footer resides seamlessly below the card -->
+    {{template "footer" .}}
   </div>
 </body>
 </html>

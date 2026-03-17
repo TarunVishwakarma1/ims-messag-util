@@ -39,6 +39,12 @@ func main() {
 	}
 	slog.Info("Gmail service initialized successfully")
 
+	if err := email.InitTemplates("templates"); err != nil {
+		slog.Error("Failed to initialize email templates", "error", err)
+		os.Exit(1)
+	}
+	slog.Info("Email templates initialized successfully")
+
 	r := chi.NewRouter()
 
 	// A good base middleware stack
@@ -94,13 +100,11 @@ func email1(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if err := email.SendEmail(r.Context(), gmailService, body); err != nil {
-	// 	slog.Error("Failed to send email", "error", err)
-	// 	http.Error(w, "Failed to send email: "+err.Error(), http.StatusBadRequest)
-	// 	return
-	// }
-
-	fmt.Println(string(body))
+	if err := email.SendEmail(r.Context(), gmailService, body); err != nil {
+		slog.Error("Failed to send email", "error", err)
+		http.Error(w, "Failed to send email: "+err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	value := r.PathValue("notificationType")
 	w.WriteHeader(200)

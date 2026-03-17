@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log/slog"
 	"mime/multipart"
+	"mime/quotedprintable"
 	"net/http"
 	"net/textproto"
 	"os"
@@ -122,15 +123,22 @@ func buildEmail(to, subject, body, attachmentPath string) (string, error) {
 	)
 	buf.WriteString(headers)
 
-	// Plain-text body part
+	// HTML body part
 	bodyHeader := make(textproto.MIMEHeader)
-	bodyHeader.Set("Content-Type", "text/plain; charset=UTF-8")
+	bodyHeader.Set("Content-Type", "text/html; charset=UTF-8")
 	bodyHeader.Set("Content-Transfer-Encoding", "quoted-printable")
 	bodyPart, err := writer.CreatePart(bodyHeader)
 	if err != nil {
 		return "", fmt.Errorf("create body part: %w", err)
 	}
-	fmt.Fprint(bodyPart, body)
+	
+	qpWriter := quotedprintable.NewWriter(bodyPart)
+	if _, err := fmt.Fprint(qpWriter, body); err != nil {
+		return "", fmt.Errorf("write quoted-printable: %w", err)
+	}
+	if err := qpWriter.Close(); err != nil {
+		return "", fmt.Errorf("close quoted-printable: %w", err)
+	}
 
 	// Attachment part (optional)
 	if attachmentPath != "" {
@@ -213,13 +221,25 @@ func SendEmail(ctx context.Context, srv *gmail.Service, reqBody []byte) error {
 		return fmt.Errorf("invalid OTP length")
 	}
 
-	subject := "Hello from IMS!"
-	emailBody := fmt.Sprintf("Hi,\n\nThis is a test email sent via the Gmail API.\n\nYour OTP is %v\n\nRegards,\nIMS", mailData.OTP)
+	subject := "IMS: Login Verification"
+	
+	templateData := struct {
+		OTP string
+	}{
+		OTP: mailData.OTP,
+	}
+
+	htmlBody, err := RenderTemplate("otp.html", subject, templateData)
+	if err != nil {
+		slog.Error("Failed to render OTP template", "error", err)
+		return fmt.Errorf("failed to render template: %w", err)
+	}
+
 	attachmentPath := ""
 
-	slog.Info("Sending OTP email", "to", to)
+	slog.Info("Sending OTP HTML email", "to", to)
 
-	if err := sendEmailWithRetry(ctx, srv, to, subject, emailBody, attachmentPath); err != nil {
+	if err := sendEmailWithRetry(ctx, srv, to, subject, htmlBody, attachmentPath); err != nil {
 		slog.Error("Failed to send email", "error", err, "to", to)
 		return fmt.Errorf("delivery failed")
 	}

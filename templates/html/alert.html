@@ -1,5 +1,5 @@
 {{define "content"}}
-  <h2>Action Required</h2>
+  <h2>Security Alert</h2>
   
   <div class="alert-box {{if eq .Data.Severity "high"}}danger{{end}}">
     <p class="alert-text {{if eq .Data.Severity "high"}}danger{{end}}">{{.Data.AlertMessage}}</p>
@@ -7,11 +7,14 @@
   
   <p>{{.Data.Details}}</p>
   
+  <p>If you recognize this activity, no further action is required. If this was not you, please secure your account immediately by changing your password.</p>
+  
   {{if .Data.ActionURL}}
-  <div style="text-align: center; margin-top: 32px;">
+  <div style="margin-top: 32px; margin-bottom: 16px;">
     <a href="{{.Data.ActionURL}}" class="btn">{{.Data.ActionText}}</a>
   </div>
   {{end}}
   
-  <p style="margin-top: 32px;">Thanks,<br>The IMS System</p>
+  <hr class="hr" />
+  <p style="margin-bottom: 0; font-size: 13px;">Sincerely,<br>The IMS Security Team</p>
 {{end}}
