@@ -53,6 +53,17 @@ func InitService(ctx context.Context) (*gmail.Service, error) {
 	return srv, nil
 }
 
+// RenewToken forces a token renewal by deleting the existing token.json and re-authenticating.
+func RenewToken(ctx context.Context) error {
+	slog.Info("Deleting existing token.json to force renewal...")
+	if err := os.Remove("token.json"); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("failed to remove old token.json: %w", err)
+	}
+
+	_, err := InitService(ctx)
+	return err
+}
+
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) (*http.Client, error) {
 	tokFile := "token.json"

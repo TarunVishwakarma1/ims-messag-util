@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"log/slog"
@@ -29,6 +30,18 @@ func main() {
 		Level: slog.LevelInfo,
 	}))
 	slog.SetDefault(logger)
+
+	renew := flag.Bool("renew", false, "Force renew the Gmail API token")
+	flag.Parse()
+
+	if *renew {
+		if err := email.RenewToken(context.Background()); err != nil {
+			slog.Error("Failed to renew token", "error", err)
+			os.Exit(1)
+		}
+		slog.Info("Successfully renewed Google API Token! You can now run the app normally.")
+		os.Exit(0)
+	}
 
 	// Initialize Gmail Service
 	var err error
@@ -73,6 +86,10 @@ func main() {
 	r.With(httprate.LimitByIP(3, 1*time.Minute)).Post("/email", email1)
 
 	r.Get("/", events)
+	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("OK"))
+	})
 
 	slog.Info("Server starting on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
