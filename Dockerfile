@@ -17,7 +17,7 @@ RUN go mod download
 COPY . .
 
 # 5. Compile the statically linked binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /message-api ./main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /message-api ./cmd/api/main.go
 
 # ==========================================
 # STAGE 2: Production
@@ -33,6 +33,8 @@ COPY --from=builder /message-api /message-api
 
 # 3. Copy templates directory
 COPY --from=builder /app/templates /templates
+
+# 4. Set Environment variables
 
 # Expose port (Internal or host mapping)
 EXPOSE 8080
