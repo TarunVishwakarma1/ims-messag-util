@@ -31,11 +31,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # 2. Copy the binary
 COPY --from=builder /message-api /message-api
 
-# 3. Copy templates directory
-COPY --from=builder /app/templates /templates
-
-# 4. Set Environment variables
-
 # Expose port (Internal or host mapping)
 EXPOSE 8080
 
