@@ -1,18 +1,27 @@
 package config
 
 import (
+	"ims-message-util/internal/utils"
 	"log/slog"
 	"os"
-	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
+	Application Application
+	Email       Email
+}
+
+type Email struct {
 	SMTPHost string
 	SMTPPort int
 	Username string
 	Password string
+}
+
+type Application struct {
+	Port int
 }
 
 func Load() *Config {
@@ -21,18 +30,30 @@ func Load() *Config {
 		slog.Warn("Error loading .env", "Error", err)
 	}
 
-	port, err := strconv.Atoi(getEnv("SMTP_PORT", "465"))
+	smtpPort, err := utils.ConvertStringToInteger(getEnv("SMTP_PORT", "465"))
+
+	if err != nil {
+		slog.Warn("Error in coversion for smtpPort, falling back to default", "Error", err)
+		smtpPort = 465
+	}
+
+	port, err := utils.ConvertStringToInteger(getEnv("PORT", "8081"))
 
 	if err != nil {
 		slog.Warn("Error in coversion for port, falling back to default", "Error", err)
-		port = 465
+		port = 8081
 	}
 
 	return &Config{
-		SMTPHost: getEnv("SMTP_HOST", "smtp.hostinger.com"),
-		SMTPPort: port,
-		Username: getEnv("EMAIL_USERNAME", "<username>"),
-		Password: getEnv("EMAIL_PASSWORD", "<password>"),
+		Application: Application{
+			Port: port,
+		},
+		Email: Email{
+			SMTPHost: getEnv("SMTP_HOST", "smtp.hostinger.com"),
+			SMTPPort: smtpPort,
+			Username: getEnv("EMAIL_USERNAME", "<username>"),
+			Password: getEnv("EMAIL_PASSWORD", "<password>"),
+		},
 	}
 }
 

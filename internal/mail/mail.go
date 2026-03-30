@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ims-message-util/internal/config"
+	"ims-message-util/internal/utils"
 	"log/slog"
 
 	"github.com/wneessen/go-mail"
@@ -30,19 +31,29 @@ type Client struct {
 }
 
 // Struct for WebAPI OTP SEND
-type OTPData struct {
+type OTP struct {
 	To  string `json:"to"`
 	OTP string `json:"otp"`
 }
 
+// Struct for All types of mail
+type GeneralMail struct {
+	To             []string
+	CC             []string
+	BCC            []string
+	Subject        string
+	Body           string
+	AttachmentPath string
+}
+
 func NewClient(cfg *config.Config) (*Client, error) {
 
-	c, err := mail.NewClient(cfg.SMTPHost,
-		mail.WithPort(cfg.SMTPPort),
+	c, err := mail.NewClient(cfg.Email.SMTPHost,
+		mail.WithPort(cfg.Email.SMTPPort),
 		mail.WithSMTPAuth(mail.SMTPAuthPlain),
 		mail.WithSSL(),
-		mail.WithUsername(cfg.Username),
-		mail.WithPassword(cfg.Password))
+		mail.WithUsername(cfg.Email.Username),
+		mail.WithPassword(cfg.Email.Password))
 
 	if err != nil {
 		slog.Error("Error in creating mail client", "ERROR", err)
@@ -51,11 +62,19 @@ func NewClient(cfg *config.Config) (*Client, error) {
 
 	return &Client{
 		smtpClient: c,
-		fromEmail:  cfg.Username,
+		fromEmail:  cfg.Email.Username,
 	}, nil
 }
 
-func (c *Client) OTPMail(ctx context.Context, to string, otpCode string) error {
+func (c *Client) OTPMail(ctx context.Context, body []byte) error {
+	otpMail, err := utils.ConvertBody[OTP](body)
+	if err != nil {
+		slog.Error("Failed to convert body to struct", "ERROR", err)
+		return err
+	}
+	to := otpMail.To
+	otpCode := otpMail.OTP
+
 	m := mail.NewMsg()
 
 	if err := m.From(c.fromEmail); err != nil {
@@ -65,7 +84,7 @@ func (c *Client) OTPMail(ctx context.Context, to string, otpCode string) error {
 		return err
 	}
 
-	m.Subject("Your Security Code")
+	m.Subject("One Time OTP")
 
 	// Format a simple HTML body for the OTP
 	htmlBody := fmt.Sprintf(`
