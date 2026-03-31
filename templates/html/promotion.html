@@ -1,0 +1,18 @@
+{{define "content"}}
+  <div style="text-align: center; margin-bottom: 32px;">
+    <!-- Large Hero Image Presentation -->
+    <img src="{{.Data.ImageURL}}" alt="Promotion Area" style="max-width: 100%; border-radius: 8px; height: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+  </div>
+  
+  <h2 style="text-align: center; color: #0F172A; font-size: 28px; font-weight: 700;">{{.Data.Headline}}</h2>
+  <p style="text-align: center; font-size: 16px; margin-bottom: 32px;">{{.Data.Description}}</p>
+  
+  <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+    <a href="{{.Data.CallToActionURL}}" class="btn" style="padding: 16px 36px; font-size: 15px; border-radius: 9999px;">{{.Data.CallToActionText}}</a>
+  </div>
+  
+  {{if .Data.ExpiryDate}}
+  <hr class="hr" style="margin-top: 48px; margin-bottom: 24px;" />
+  <p style="font-size: 12px; color: #64748B; text-align: center; margin-bottom: 0;">This exclusive offer expires on {{.Data.ExpiryDate}}.</p>
+  {{end}}
+{{end}}

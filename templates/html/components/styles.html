@@ -1,0 +1,199 @@
+{{define "styles"}}
+<style>
+  /* Removed @import and CSS variables because Gmail and many email clients strip them completely. */
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Structural Base */
+  table {
+    border-collapse: collapse;
+  }
+
+  .wrapper {
+    width: 100%;
+    background-color: #F8FAFC;
+    padding: 60px 0;
+  }
+
+  .main-container {
+    max-width: 580px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  /* Header (Minimalist) */
+  .header {
+    padding: 32px 40px 16px 40px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .header-logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Content (Spacious & Crisp) */
+  .content {
+    padding: 32px 40px;
+    line-height: 1.6;
+    color: #334155;
+    font-size: 15px;
+  }
+
+  .content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #0F172A;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+
+  .content p {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #475569;
+  }
+
+  /* Massive OTP Block */
+  .otp-container {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    margin: 36px 0;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .otp-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 46px;
+    /* Huge Size */
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: #0F172A;
+    margin: 0;
+    padding-left: 0.3em;
+    /* Balance letter-spacing */
+    line-height: 1;
+  }
+
+  .otp-subtext {
+    font-size: 13px;
+    color: #64748B;
+    margin-top: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Alert Specific */
+  .alert-box {
+    border-left: 4px solid #F59E0B;
+    background-color: #FFFBEB;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 32px;
+  }
+
+  .alert-box.danger {
+    border-left-color: #EF4444;
+    background-color: #FEF2F2;
+  }
+
+  .alert-text {
+    margin: 0 !important;
+    color: #92400E !important;
+    font-weight: 500;
+  }
+
+  .alert-text.danger {
+    color: #991B1B !important;
+  }
+
+  /* Utility Components */
+  .btn {
+    display: inline-block;
+    background-color: #2563EB;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.2s;
+  }
+
+  .hr {
+    border: 0;
+    border-top: 1px solid #E2E8F0;
+    margin: 32px 0;
+  }
+
+  /* Footer (Enterprise Grade) */
+  .footer {
+    padding: 40px;
+    text-align: left;
+    color: #94A3B8;
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: #F8FAFC;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .footer a {
+    color: #64748B;
+    text-decoration: underline;
+  }
+
+  /* Responsive Constraints */
+  @media screen and (max-width: 600px) {
+    .wrapper {
+      padding: 20px 0;
+    }
+
+    .main-container {
+      margin: 0 16px;
+      width: auto !important;
+      border-radius: 8px;
+    }
+
+    .content,
+    .header {
+      padding: 24px 20px;
+    }
+
+    .footer {
+      padding: 24px 20px;
+      text-align: center;
+      margin: 0 16px;
+    }
+
+    .otp-text {
+      font-size: 36px;
+      letter-spacing: 0.2em;
+    }
+  }
+</style>
+{{end}}

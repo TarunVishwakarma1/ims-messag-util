@@ -1,0 +1,16 @@
+{{define "content"}}
+  <h2 style="font-size: 26px; font-weight: 700; margin-bottom: 12px;">{{.Data.Title}}</h2>
+  <p style="font-size: 16px; margin-bottom: 36px;">{{.Data.IntroText}}</p>
+  
+  {{range .Data.Articles}}
+  <div style="margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid #F1F5F9;">
+    <h3 style="margin-top: 0; margin-bottom: 8px; color: #0F172A; font-size: 18px; font-weight: 600;">{{.Headline}}</h3>
+    <p style="margin-top: 0; margin-bottom: 16px; font-size: 15px;">{{.Summary}}</p>
+    <a href="{{.ReadMoreURL}}" style="color: #2563EB; font-weight: 600; text-decoration: none; font-size: 14px;">Read article &rarr;</a>
+  </div>
+  {{end}}
+  
+  <div style="margin-top: 16px; padding: 24px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; text-align: center;">
+    <p style="margin: 0; font-weight: 500; color: #334155; font-size: 14px;">Look out for our next major scheduled update.</p>
+  </div>
+{{end}}

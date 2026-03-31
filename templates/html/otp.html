@@ -1,0 +1,15 @@
+{{define "content"}}
+  <h2>Verification Code</h2>
+  <p>Here is your secure verification code to access your IMS account. This code is unique to this login attempt and will expire securely in 10 minutes.</p>
+  
+  <!-- Massive focal-point OTP block -->
+  <div class="otp-container">
+    <p class="otp-text">{{.Data.OTP}}</p>
+    <div class="otp-subtext">Verification Code</div>
+  </div>
+  
+  <p>For your security, <strong>never share this code</strong> with anyone else, not even an IMS employee.</p>
+  
+  <br>
+  <p style="margin-bottom: 0;">Sincerely,<br>The IMS Security Team</p>
+{{end}}
