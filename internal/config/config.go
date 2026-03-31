@@ -37,11 +37,11 @@ func Load() *Config {
 		smtpPort = 465
 	}
 
-	port, err := utils.ConvertStringToInteger(getEnv("PORT", "8081"))
+	port, err := utils.ConvertStringToInteger(getEnv("PORT", "8080"))
 
 	if err != nil {
 		slog.Warn("Error in coversion for port, falling back to default", "Error", err)
-		port = 8081
+		port = 8080
 	}
 
 	return &Config{

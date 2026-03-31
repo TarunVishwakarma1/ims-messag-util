@@ -32,9 +32,11 @@ func Setup(cfg *config.Config) *chi.Mux {
 	}
 	mailHandler := handler.NewMailHandler(mailClient)
 
-	r.Post("/send-otp", mailHandler.SendOTP)
-	r.Post("/send-alert", mailHandler.SendAlert)
-	r.Post("/send-reminder", mailHandler.SendReminder)
+	r.Group(func(r chi.Router) {
+		r.Post("/send-otp", mailHandler.SendOTP)
+		r.Post("/send-alert", mailHandler.SendAlert)
+		r.Post("/send-reminder", mailHandler.SendReminder)
+	})
 
 	return r
 }
