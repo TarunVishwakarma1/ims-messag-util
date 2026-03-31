@@ -1,0 +1,11 @@
+ims-creds.json
+token.json
+.git
+.gitignore
+
+.env
+*.csv
+*.json
+*.log
+
+ims-message-util

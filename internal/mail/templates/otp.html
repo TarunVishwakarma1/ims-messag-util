@@ -1,0 +1,21 @@
+{{ define "content" }}
+<h1 style="margin: 0 0 16px 0; font-size: 22px; font-weight: 700; color: #111827; letter-spacing: -0.5px;">
+    Authentication Code
+</h1>
+
+<p style="margin: 0 0 32px 0; font-size: 16px; color: #4B5563; line-height: 1.6;">
+    Please use the verification code below to securely sign in to your account.
+</p>
+
+<div style="background-color: #F3F4F6; border-radius: 8px; padding: 24px; text-align: center; margin-bottom: 32px;">
+    <span
+        style="font-family: 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 42px; font-weight: 700; color: #111827; letter-spacing: 16px; padding-left: 16px; display: inline-block;">
+        {{ .OTPCode }}
+    </span>
+</div>
+
+<p style="margin: 0; font-size: 14px; color: #6B7280; line-height: 1.6;">
+    This code will expire in <strong>{{ .ValidityMinutes }} minutes</strong>. <br>
+    <span style="color: #EF4444; font-weight: 500;">Never share this code</span> with anyone, not even our support team.
+</p>
+{{ end }}
